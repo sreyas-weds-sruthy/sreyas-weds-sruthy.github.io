@@ -54,12 +54,14 @@
     else fadeTo(0.7);
   }
   function stopMusic() {
+    // Stop instantly on every device; no fade, nothing to wait for.
+    fadeId++;
     setMusicUI(false);
-    if (canFade) fadeTo(0, function () { if (!playing) audio.pause(); });
-    else { fadeId++; audio.pause(); }
+    audio.pause();
   }
+
   // If the phone pauses it (call, lock screen, other app), keep the button honest.
-  audio.addEventListener("pause", function () { if (playing && !canFade) setMusicUI(false); });
+  audio.addEventListener("pause", function () { if (playing) setMusicUI(false); });
   document.addEventListener("visibilitychange", function () { if (document.hidden && playing) { fadeId++; audio.pause(); setMusicUI(false); } });
   musicBtn.addEventListener("click", function () { playing ? stopMusic() : playMusic(); });
 
