@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sreyas &amp; Sruthy · Wedding Invitation</title>
+<meta name="description" content="Wedding of Sreyas and Sruthy, Sunday 3 January 2027, Contour Backwaters Resort, Changanassery, Kerala.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sreyas &amp; Sruthy · Wedding Invitation">
+<meta property="og:description" content="Sunday 3 January 2027 · Contour Backwaters Resort, Changanassery">
+<meta name="theme-color" content="#f3e3d3">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+SC:wght@500;600&family=Noto+Serif+Devanagari:wght@500&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!--BODY-->
+<audio id="bgm" loop preload="auto">
+  <!-- Put the song in audio/music.mp3 -->
+  <source src="audio/music.mp3" type="audio/mpeg">
+</audio>
+
+<button class="music" id="music" type="button" aria-pressed="false"><span class="note" aria-hidden="true">♫</span> <span id="music-label">Music Off</span></button>
+
+<!-- Opening: the envelope -->
+<section class="stage" id="top" aria-label="Invitation">
+  <p class="eyebrow">Together with our families</p>
+  <svg class="orn" aria-hidden="true"><use href="#orn"/></svg>
+
+  <div class="envelope-wrap">
+    <div class="envelope" id="envelope">
+      <div class="env-back"></div>
+      <div class="cover" id="cover">
+        <div class="cover-inner">
+          <span class="cover-om" aria-hidden="true">ॐ</span>
+          <span class="cover-small">The wedding of</span>
+          <span class="cover-names">Sreyas <em>&amp;</em> Sruthy</span>
+          <span class="cover-date">03 · 01 · 2027</span>
+        </div>
+      </div>
+      <div class="env-front" aria-hidden="true"></div>
+      <div class="env-flap" id="flap" aria-hidden="true"></div>
+      <div class="tape" id="tape" aria-hidden="true"><span class="tape-l"></span><span class="tape-r"></span><span class="tape-tag"><img src="assets/monogram-maroon.png" alt="" width="500" height="500"></span></div>
+    </div>
+  </div>
+
+  <p class="tagline">A special day. A beautiful beginning.</p>
+
+  <div class="stage-actions">
+    <button class="btn primary" id="open" type="button"><span aria-hidden="true">✧</span> Open Invitation</button>
+    <button class="btn" id="view-card" type="button"><span aria-hidden="true">⌕</span> View Full Card</button>
+    <a class="btn" href="#location"><span aria-hidden="true">⌖</span> Location</a>
+    <a class="btn" href="#reception"><span aria-hidden="true">✦</span> Reception</a>
+    <button class="btn" id="replay" type="button" hidden><span aria-hidden="true">↻</span> Replay</button>
+  </div>
+
+  <p class="dateline">Sunday · 3 January 2027 · Kerala</p>
+</section>
+
+<!-- The invitation -->
+<section class="invite" id="invite" aria-label="The invitation">
+  <div class="sheet">
+    <span class="om" aria-hidden="true">ॐ</span>
+    <p class="eyebrow">With the blessings of the Almighty &amp; our elders</p>
+    <p class="lead">With love and joy, we invite you and your family to celebrate the wedding of</p>
+
+    <div class="person reveal">
+      <h2 class="name">Sreyas</h2>
+      <p class="parents">Son of K.S. Priya &amp; Anilkumar P.B.</p>
+      <p class="addr">Palliyathu House, Kappil East, Krishnapuram P.O., Kayamkulam, Alappuzha</p>
+      <p class="addr">Ph: <a href="tel:+919447279791">94472 79791</a> · <a href="tel:+918281197798">82811 97798</a></p>
+    </div>
+
+    <span class="amp" aria-hidden="true">&amp;</span>
+
+    <div class="person reveal">
+      <h2 class="name">Sruthy</h2>
+      <p class="parents">D/o Mrs. Bindu R. Nair &amp; Mr. Madhusoodanan Nair</p>
+      <p class="addr">Chenasseril House, Varikkamkunnu, Vadakara, Kottayam</p>
+    </div>
+
+    <p class="blessing reveal">As they begin their journey together, your presence and blessings would mean the world to us.</p>
+  </div>
+</section>
+
+<!-- The wedding -->
+<section class="details" aria-label="The wedding">
+  <h2 class="script-title reveal">The Wedding</h2>
+  <div class="facts reveal">
+    <div class="fact">
+      <span class="label">Date</span>
+      <span class="val">Sunday</span>
+      <span class="big">03</span>
+      <span class="val">January 2027</span>
+      <span class="sub">1202 Dhanu 19</span>
+    </div>
+    <div class="fact">
+      <span class="label">Muhurtham</span>
+      <span class="val">Between</span>
+      <span class="val strong">12.00 noon</span>
+      <span class="val">&amp; 12.25 pm</span>
+    </div>
+    <div class="fact">
+      <span class="label">Venue</span>
+      <span class="val strong">Contour Backwaters Resort</span>
+      <span class="val">AC Road, Changanassery</span>
+    </div>
+  </div>
+  <p class="note reveal">The wedding party departs at 8.30 am</p>
+</section>
+
+<!-- Location: the backwaters -->
+<section class="water" id="location" aria-label="Location">
+  <canvas class="river" id="river" aria-hidden="true"></canvas>
+  <div class="water-card">
+    <p class="eyebrow light">Location</p>
+    <p class="w-big">Contour Backwaters Resort</p>
+    <p class="w-sub">AC Road, Changanassery, Kerala</p>
+    <a class="btn primary" href="https://www.google.com/maps/search/?api=1&amp;query=Contour+Backwaters+Hotel+Resort+%26+Convention+Centre+Changanassery" target="_blank" rel="noopener"><span aria-hidden="true">⌖</span> Open in Maps</a>
+  </div>
+</section>
+
+<!-- Countdown -->
+<section class="count" aria-label="Countdown">
+  <p class="eyebrow">Until the muhurtham</p>
+  <div class="count-grid" id="count-grid">
+    <div class="unit"><b id="cd-d">—</b><small>Days</small></div>
+    <div class="unit"><b id="cd-h">—</b><small>Hours</small></div>
+    <div class="unit"><b id="cd-m">—</b><small>Minutes</small></div>
+    <div class="unit"><b id="cd-s">—</b><small>Seconds</small></div>
+  </div>
+  <p class="count-done" id="count-done" hidden>Sreyas &amp; Sruthy were married on 3 January 2027</p>
+  <a class="btn" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Wedding+of+Sreyas+%26+Sruthy&amp;dates=20270103T063000Z/20270103T065500Z&amp;location=Contour+Backwaters+Resort%2C+AC+Road%2C+Changanassery&amp;details=Muhurtham+between+12.00+noon+and+12.25+pm+IST.+The+wedding+party+departs+at+8.30+am.">Add to calendar</a>
+</section>
+
+<!-- Reception -->
+<section class="night" id="reception" aria-label="Wedding reception">
+  <canvas class="house" id="house" aria-hidden="true"></canvas>
+  <div class="water-card">
+    <p class="eyebrow light">Wedding Reception</p>
+    <p class="w-big">Monday, 4 January 2027</p>
+    <p class="rec-time">5.00 pm to 10.00 pm</p>
+    <p class="w-sub">At the groom’s residence<br>Palliyathu House, Kappil East, Krishnapuram P.O., Kayamkulam, Alappuzha</p>
+    <div class="row-actions">
+      <a class="btn primary" href="https://www.google.com/maps/search/?api=1&amp;query=9.151661150060637%2C76.53540988020937" target="_blank" rel="noopener"><span aria-hidden="true">⌖</span> Open in Maps</a>
+      <a class="btn light" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Reception+of+Sreyas+%26+Sruthy&amp;dates=20270104T113000Z/20270104T163000Z&amp;location=Palliyathu+House%2C+Kappil+East%2C+Krishnapuram+P.O.%2C+Kayamkulam%2C+Alappuzha&amp;details=Wedding+reception%2C+5.00+pm+to+10.00+pm+IST.">Add to calendar</a>
+    </div>
+  </div>
+</section>
+
+<!-- Closing -->
+<section class="closing" aria-label="With love">
+  <p class="gift reveal">Your blessings are the only presents we seek</p>
+  <p class="eyebrow reveal">With love &amp; warm wishes</p>
+  <p class="hosts reveal">Karan, Shruthi &amp; our little sunshine, Samanga</p>
+  <svg class="orn reveal" aria-hidden="true"><use href="#orn"/></svg>
+  <button class="btn" id="view-card-2" type="button"><span aria-hidden="true">⌕</span> View Full Card</button>
+  <p class="compliments">Best compliments from B.S. Gold Palace, Charummoodu</p>
+</section>
+
+<!-- Full card viewer -->
+<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="Full invitation card" hidden>
+  <div class="viewer-bar">
+    <button class="btn small" id="zoom" type="button">＋ Zoom In</button>
+    <button class="btn small" id="close" type="button">Close ✕</button>
+  </div>
+  <div class="viewer-scroll" id="viewer-scroll">
+    <img id="card-img" src="assets/card.jpg" alt="The printed wedding invitation card of Sreyas and Sruthy" width="1147" height="1600">
+  </div>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="orn" viewBox="0 0 220 22">
+    <g fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
+      <path d="M2 11 H78"/><path d="M142 11 H218"/>
+      <path d="M78 11 C86 3, 94 3, 98 11 C94 19, 86 19, 78 11Z"/>
+      <path d="M142 11 C134 3, 126 3, 122 11 C126 19, 134 19, 142 11Z"/>
+    </g>
+    <path d="M110 2 L119 11 L110 20 L101 11 Z" fill="currentColor"/>
+    <circle cx="62" cy="11" r="1.6" fill="currentColor"/><circle cx="158" cy="11" r="1.6" fill="currentColor"/>
+  </symbol>
+</svg>
+<!--/BODY-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
