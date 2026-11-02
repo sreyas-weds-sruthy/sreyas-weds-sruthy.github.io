@@ -2,7 +2,12 @@
   "use strict";
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var animate = !reduce && window.gsap && window.ScrollTrigger;
-  if (animate) { document.documentElement.classList.add("anim"); gsap.registerPlugin(ScrollTrigger); }
+  if (animate) {
+    document.documentElement.classList.add("anim");
+    gsap.registerPlugin(ScrollTrigger);
+    // Don't re-measure every time a phone's address bar slides in or out; that causes jumps.
+    ScrollTrigger.config({ ignoreMobileResize: true });
+  }
 
   function rng(seed) { return function () { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }; }
   function fitCanvas(cv) {
@@ -25,9 +30,16 @@
   var src = audio.querySelector("source");
   if (src) src.addEventListener("error", function () { noAudio = true; musicBtn.hidden = true; });
   function setMusicUI(on) { playing = on; musicBtn.setAttribute("aria-pressed", on ? "true" : "false"); musicLabel.textContent = on ? "Music On" : "Music Off"; }
+  // Phones (iPhone especially) ignore volume changes from a web page, so fades only run
+  // where the browser accepts them, and stopping always pauses straight away.
+  var canFade = (function () { try { var v = audio.volume; audio.volume = 0.5; var ok = audio.volume === 0.5; audio.volume = v; return ok; } catch (e) { return false; } })();
+  var fadeId = 0;
   function fadeTo(target, done) {
+    var id = ++fadeId;
+    if (!canFade) { if (done) done(); return; }
     var step = function () {
-      var v = audio.volume + (target > audio.volume ? 0.04 : -0.06);
+      if (id !== fadeId) return;
+      var v = audio.volume + (target > audio.volume ? 0.04 : -0.08);
       v = Math.max(0, Math.min(1, v)); audio.volume = v;
       if (Math.abs(v - target) > 0.05) requestAnimationFrame(step); else { audio.volume = target; if (done) done(); }
     };
@@ -35,11 +47,20 @@
   }
   function playMusic() {
     if (noAudio || playing) return;
-    audio.volume = 0;
+    setMusicUI(true);
+    if (canFade) audio.volume = 0;
     var p = audio.play();
-    if (p && p.then) p.then(function () { setMusicUI(true); fadeTo(0.7); }).catch(function () {});
+    if (p && p.then) p.then(function () { fadeTo(0.7); }).catch(function () { setMusicUI(false); });
+    else fadeTo(0.7);
   }
-  function stopMusic() { setMusicUI(false); fadeTo(0, function () { audio.pause(); }); }
+  function stopMusic() {
+    setMusicUI(false);
+    if (canFade) fadeTo(0, function () { if (!playing) audio.pause(); });
+    else { fadeId++; audio.pause(); }
+  }
+  // If the phone pauses it (call, lock screen, other app), keep the button honest.
+  audio.addEventListener("pause", function () { if (playing && !canFade) setMusicUI(false); });
+  document.addEventListener("visibilitychange", function () { if (document.hidden && playing) { fadeId++; audio.pause(); setMusicUI(false); } });
   musicBtn.addEventListener("click", function () { playing ? stopMusic() : playMusic(); });
 
   /* ---------- envelope ---------- */
@@ -51,6 +72,7 @@
       .to("#tape .tape-tag", { y: 46, rotation: 14, opacity: 0, duration: 0.5, ease: "power2.in" })
       .to("#tape .tape-l", { xPercent: -70, opacity: 0, duration: 0.6, ease: "power2.in" }, "<0.1")
       .to("#tape .tape-r", { xPercent: 70, opacity: 0, duration: 0.6, ease: "power2.in" }, "<")
+      .set("#tape", { display: "none" })
       .to("#flap", { rotateX: 180, duration: 0.8, ease: "power2.inOut" }, "-=0.1")
       .set("#flap", { zIndex: 1 })
       .to("#cover", { yPercent: -58, duration: 1, ease: "power2.out" })
@@ -166,7 +188,7 @@
     }
     function draw() {
       if (!c) return;
-      var ctx = c.ctx, W = c.w, H = c.h, p = progress, hz = H * 0.56, S = Math.min(H, W * 1.25);
+      var ctx = c.ctx, W = c.w, H = c.h, p = progress, hz = H * (W < 700 ? 0.4 : 0.56), S = Math.min(H, W * 1.25);
       // sky
       var sky = ctx.createLinearGradient(0, 0, 0, hz);
       sky.addColorStop(0, "#1b0d22"); sky.addColorStop(0.45, "#4d1d32"); sky.addColorStop(0.8, "#b45a37"); sky.addColorStop(1, "#eaa860");
@@ -348,21 +370,35 @@
   })();
   if (!animate) night.set(1);
   if (animate) {
-    ScrollTrigger.create({
-      trigger: ".water", start: "top top", end: "+=160%", pin: true, scrub: 0.6, anticipatePin: 1,
-      onUpdate: function (s) { river.set(0.05 + s.progress * 0.9); }
-    });
     gsap.from(".water .water-card", { opacity: 0, y: 40, duration: 1, ease: "power2.out", scrollTrigger: { trigger: ".water", start: "top 40%" } });
-    ScrollTrigger.create({
-      trigger: ".night", start: "top top", end: "+=130%", pin: true, scrub: 0.6, anticipatePin: 1,
-      onUpdate: function (s) { night.set(s.progress); }
-    });
     gsap.from(".night .water-card", { opacity: 0, y: 40, duration: 1, ease: "power2.out", scrollTrigger: { trigger: ".night", start: "top 40%" } });
     gsap.utils.toArray(".reveal").forEach(function (el) {
       gsap.from(el, { opacity: 0, y: 26, duration: 1.1, ease: "power2.out", scrollTrigger: { trigger: el, start: "top 90%" } });
     });
     window.addEventListener("load", function () { ScrollTrigger.refresh(); });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
+  }
+
+  /* ---------- scroll progress for the two scenes ---------- */
+  if (animate) {
+    var scenes = [
+      { el: document.querySelector(".water"), set: function (p) { river.set(0.05 + p * 0.9); } },
+      { el: document.querySelector(".night"), set: function (p) { night.set(p); } }
+    ];
+    var ticking = false;
+    var update = function () {
+      ticking = false;
+      var vh = window.innerHeight;
+      scenes.forEach(function (s) {
+        var r = s.el.getBoundingClientRect(), travel = r.height - vh;
+        if (r.bottom < -vh || r.top > vh * 2) return;
+        s.set(Math.min(1, Math.max(0, -r.top / Math.max(1, travel))));
+      });
+    };
+    var onScroll = function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    update();
   }
 
   /* ---------- countdown ---------- */

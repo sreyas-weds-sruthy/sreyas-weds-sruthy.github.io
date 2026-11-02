@@ -24,7 +24,7 @@ body {
   background:
     radial-gradient(ellipse 90% 60% at 50% 0%, #fbf1e4 0%, transparent 60%),
     var(--cream);
-  overflow-x: hidden; -webkit-font-smoothing: antialiased;
+  overflow-x: hidden; overflow-x: clip; -webkit-font-smoothing: antialiased;
 }
 img { max-width: 100%; display: block; }
 a { color: inherit; }
@@ -63,6 +63,7 @@ section { position: relative; padding-left: var(--gl); padding-right: var(--gr);
 
 /* Opening stage */
 .stage {
+  overflow-x: clip; /* the ribbon halves slide sideways when opening; keep them from widening the page */
   min-height: 100vh; min-height: 100svh;
   display: grid; justify-items: center; align-content: center; gap: 18px; text-align: center;
   padding-block: 70px 50px;
@@ -162,7 +163,20 @@ section { position: relative; padding-left: var(--gl); padding-right: var(--gr);
 .note { font-style: italic; color: var(--muted); }
 
 /* Backwaters */
-.water { min-height: 100vh; min-height: 100svh; display: grid; align-items: end; justify-items: center; padding-block: 80px 60px; overflow: hidden; background: #1a0b12; }
+
+.water { background: #1a0b12; }
+.night { background: #0e0614; }
+/* Scroll scenes: the section is tall, the inner box sticks to the screen while you scroll through it.
+   Native sticky keeps it locked in place on phones, even while the address bar shows and hides. */
+.scene { padding: 0; }
+.scene-sticky {
+  position: relative; height: 100vh; height: 100svh; overflow: hidden;
+  display: grid; align-items: end; justify-items: center;
+  padding: 80px var(--gr) 60px var(--gl);
+}
+.anim .scene-sticky { position: sticky; top: 0; }
+.anim .water { height: 260vh; height: 260svh; }
+.anim .night { height: 230vh; height: 230svh; }
 .river { position: absolute; inset: 0; width: 100%; height: 100%; }
 .water-card {
   position: relative; display: grid; gap: 8px; justify-items: center; text-align: center;
@@ -173,7 +187,7 @@ section { position: relative; padding-left: var(--gl); padding-right: var(--gr);
 .w-big { font-size: clamp(26px, 4vw, 32px); font-weight: 500; line-height: 1.2; }
 .w-sub { font-style: italic; color: #d8c3a3; }
 .water-card .btn { margin-top: 10px; }
-.anim .water { height: 100vh; height: 100svh; min-height: 0; }
+
 
 /* Countdown */
 .count { padding-block: 80px 70px; display: grid; gap: 18px; justify-items: center; text-align: center; }
@@ -184,13 +198,13 @@ section { position: relative; padding-left: var(--gl); padding-right: var(--gr);
 .count-done { font-style: italic; font-size: 24px; color: var(--maroon); }
 
 /* Reception: the groom's house at night */
-.night { min-height: 100vh; min-height: 100svh; display: grid; align-items: end; justify-items: center; padding-block: 80px 60px; overflow: hidden; background: #0e0614; }
+
 .house { position: absolute; inset: 0; width: 100%; height: 100%; }
 .rec-time { font-family: var(--caps); letter-spacing: .18em; font-size: 17px; color: var(--gold-hi); text-transform: uppercase; }
 .row-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 10px; }
 .btn.light { color: #f6ead6; background: transparent; border-color: rgba(220,189,116,.6); }
 .btn.light:hover { background: rgba(255,255,255,.08); }
-.anim .night { height: 100vh; height: 100svh; min-height: 0; }
+
 
 /* Closing */
 .closing { padding-block: 70px calc(50px + env(safe-area-inset-bottom, 0px)); display: grid; gap: 16px; justify-items: center; text-align: center; }
